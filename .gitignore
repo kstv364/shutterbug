@@ -11,6 +11,8 @@ firebase.txt
 
 # production
 /build
+/pictures
+/src/assets
 
 # misc
 .DS_Store
