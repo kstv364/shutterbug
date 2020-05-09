@@ -1,12 +1,12 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 export default function Post(props) {
-  const [first_name, last_name, picture] = props.user;
+  const { first_name, last_name, picture } = props.user;
   return (
-    <Card>
+    <Card style={{ marginBottom: "2em" }}>
       <Card.Header>
         <h5>
-          {first_name} {last_name}
+          {first_name.toUpperCase()} {last_name.toUpperCase()}
         </h5>
       </Card.Header>
       <Card.Img variant="top" src={require(`../assets/pictures/${picture}`)} />
