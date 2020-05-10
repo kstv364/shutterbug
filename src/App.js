@@ -8,8 +8,7 @@ import data from "./assets/data/final.json";
 import Hero from "./components/Hero";
 
 function App() {
-  
-  const top5 = data.slice(0,5)
+  const top5 = data.slice(0, 5);
   console.log(top5);
   return (
     <>

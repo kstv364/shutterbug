@@ -1,13 +1,22 @@
 import React from "react";
-import { Card } from "react-bootstrap";
+import { Card, Image } from "react-bootstrap";
 export default function Post(props) {
   const { first_name, last_name, picture } = props.user;
   return (
     <Card style={{ marginBottom: "2em" }}>
       <Card.Header>
-        <h5>
-          {first_name.toUpperCase()} {last_name.toUpperCase()}
-        </h5>
+        <div style={{ display: "block" }}>
+          <Image style={{ width: "10%" }}
+            src={require(`../assets/pictures/${picture}`)}
+            roundedCircle
+
+          />
+          <span style={{ display: "inline-block", padding : "10px" }}>
+            <h6>{first_name.toUpperCase()} {last_name.toUpperCase()}</h6>
+          </span>
+
+        </div>
+
       </Card.Header>
       <Card.Img variant="top" src={require(`../assets/pictures/${picture}`)} />
       <Card.Body>
@@ -18,5 +27,6 @@ export default function Post(props) {
         </Card.Text>
       </Card.Body>
     </Card>
+
   );
 }
