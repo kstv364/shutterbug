@@ -4,12 +4,13 @@
 /node_modules
 /.pnp
 .pnp.js
-firebase.txt
+
 
 # testing
 /coverage
 
 # production
+/config
 /build
 /pictures
 /src/assets

@@ -6,7 +6,7 @@ export default function Post(props) {
     <Card style={{ marginBottom: "2em" }}>
       <Card.Header>
         <div style={{ display: "block" }}>
-          <Image style={{ width: "10%" }}
+          <Image style={{ width: "12.5%" }}
             src={require(`../assets/pictures/${picture}`)}
             roundedCircle
 
