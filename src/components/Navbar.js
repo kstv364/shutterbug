@@ -6,19 +6,17 @@ import {
   NavDropdown,
   Form,
   FormControl,
-  Button,
+  Button
 } from "react-bootstrap";
+
+import { NavLink} from "react-router-dom";
 
 export default class extends Component {
   render() {
     return (
-      <Navbar
-        bg="light"
-        expand="lg"
-        fixed="top"
-      >
+      <Navbar bg="light" expand="lg" fixed="top">
         <Container>
-          <Navbar.Brand href="#home">Shutterbug</Navbar.Brand>
+          <Navbar.Brand href="/">Shutterbug</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ml-auto">
@@ -30,8 +28,12 @@ export default class extends Component {
                 />
                 <Button variant="outline-success">Search</Button>
               </Form>
-              <Nav.Link href="#home">Home</Nav.Link>
-              <Nav.Link href="#link">Profile</Nav.Link>
+              <Nav.Link as={NavLink} to="/" exact>
+                Home
+              </Nav.Link>
+              <Nav.Link as={NavLink} to="/profile">
+                Profile
+              </Nav.Link>
               <NavDropdown title="Account" id="basic-nav-dropdown" alignRight>
                 <NavDropdown.Item href="#action/3.1">Sign out</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">

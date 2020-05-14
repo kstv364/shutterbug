@@ -1,0 +1,31 @@
+.header {
+  background-color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.header__items {
+  max-width: 750px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+}
+.header__logo {
+  width: 5em;
+  object-fit: contain;
+  cursor: pointer;
+}
+.header__option {
+  display: flex;
+  padding: 5px;
+}
+
+.header__optionLineOne {
+  margin-right: 5px;
+}
+
+.float-right {
+  flex: 1;
+}
