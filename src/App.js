@@ -51,7 +51,7 @@ const App = () => {
           <Route
             path="/"
             exact
-            render={() => <Home data={data} top5={top5}></Home>}
+            render={() => <Home user={user} data={data} top5={top5}></Home>}
           ></Route>
           <Route
             path="/profile"
