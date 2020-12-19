@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import "./Header.css";
 import { useStateValue } from "./../StateProvider";
 import { auth } from "../firebase";
+import { Button } from "@material-ui/core";
 
 export const Header = () => {
   const [{ user }] = useStateValue();
@@ -29,9 +30,9 @@ export const Header = () => {
             <span className="header__optionLineOne">
               Hello {user?.email || "Guest"}
             </span>
-            <span className="header__optionLineTwo">
+            <Button className="header__optionLineTwo">
               {user ? "Sign Out" : "Sign in"}
-            </span>
+            </Button>
           </div>
         </div>
       </div>

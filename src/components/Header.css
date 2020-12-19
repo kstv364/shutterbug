@@ -11,6 +11,8 @@
   width: 100%;
   margin: 0 auto;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .header__logo {
   width: 5em;
@@ -20,12 +22,10 @@
 .header__option {
   display: flex;
   padding: 5px;
+  align-items: center;
 }
 
 .header__optionLineOne {
   margin-right: 5px;
 }
 
-.float-right {
-  flex: 1;
-}

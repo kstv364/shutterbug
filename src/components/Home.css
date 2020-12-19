@@ -1,3 +1,6 @@
 .container {
   max-width: 750px;
 }
+.header__optionLineOne {
+  display: inline-flex;
+}

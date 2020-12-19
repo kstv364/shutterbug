@@ -7,7 +7,7 @@ import AddPost from "./AddPost";
 import { db } from "../firebase";
 
 export default (props) => {
-  const { data, top5, user } = props;
+  const {  top5, user } = props;
 
   const [posts, setPosts] = useState([]);
 
