@@ -73,14 +73,22 @@ const Profile = () => {
           .getDownloadURL()
           .then((url) => {
             console.log(url);
-            user.updateProfile({
-              photoURL: url,
-            });
+            auth.currentUser
+              .updateProfile({
+                photoURL: url,
+              })
+              .then(() => {
+                dispatch({
+                  type: "SET_USER",
+                  user: auth.currentUser,
+                });
+                setImage(null);
+              })
+              .catch((err) => console.log(err));
           })
           .catch((err) => alert(err.message));
 
         setProgress(0);
-        setImage(null);
       }
     );
   };
@@ -93,7 +101,7 @@ const Profile = () => {
         alt="user"
       ></Avatar>
       <input type="file" onChange={handleChange} />
-      {progress > 0 ? <div>Uploaded {progress}%</div> : null}
+      {progress > 0 ? <div>Uploaded {progress}%</div> : ""}
       <Input
         placeholder="Name"
         value={name || ""}

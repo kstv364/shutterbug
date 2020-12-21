@@ -4,7 +4,7 @@ import { Input } from "@material-ui/core";
 import ImageUploader from "react-images-upload";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
-import { storage, db } from "../firebase";
+import { storage, db, auth } from "../firebase";
 import "./AddPost.css";
 import firebase from "firebase";
 
@@ -69,6 +69,7 @@ function AddPost({ username }) {
               caption,
               imageUrl,
               username,
+              userPhotoUrl: auth.currentUser.photoURL,
             });
           });
         setProgress(0);
@@ -81,7 +82,6 @@ function AddPost({ username }) {
 
   function onDrop(picture) {
     setImage(picture[0]);
-    console.log(picture[0]);
   }
 
   const handleModalClose = () => {

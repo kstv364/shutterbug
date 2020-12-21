@@ -36,6 +36,7 @@ export default (props) => {
                 username={post.username}
                 caption={post.caption}
                 imageUrl={post.imageUrl}
+                userPhotoUrl={post.userPhotoUrl}
               ></Post>
             ))}
           </Col>
