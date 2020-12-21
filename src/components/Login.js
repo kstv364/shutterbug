@@ -55,7 +55,7 @@ export default function Login() {
     //login logic goes here
     auth
       .signInWithEmailAndPassword(email, password)
-      .then((auth) => {
+      .then((authUser) => {
         // logged in, redirect to homepage
         history.push("/");
       })

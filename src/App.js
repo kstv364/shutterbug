@@ -9,7 +9,6 @@ import Login from "./components/Login";
 import { Header } from "./components/Header";
 import { useStateValue } from "./StateProvider";
 import { auth } from "./firebase";
-import { Container } from "react-bootstrap";
 
 const App = () => {
   const top5 = data.slice(0, 5);
@@ -48,14 +47,13 @@ const App = () => {
       <Router>
         <Header></Header>
         <Switch>
+          <Route path="/profile">
+            <Profile user={user} />
+          </Route>
           <Route
             path="/"
             exact
-            render={() => <Home user={user} data={data} top5={top5}></Home>}
-          ></Route>
-          <Route
-            path="/profile"
-            render={() => <Profile user={data[2]}></Profile>}
+            render={() => <Home data={data} top5={top5}></Home>}
           ></Route>
           <Route path="/login">
             <Login />

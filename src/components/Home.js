@@ -4,10 +4,12 @@ import "./Home.css";
 import Sidebar from "./Sidebar";
 import Post from "./Post";
 import AddPost from "./AddPost";
+import { useStateValue } from "../StateProvider";
 import { db } from "../firebase";
 
 export default (props) => {
-  const {  top5, user } = props;
+  const { top5 } = props;
+  const [{ user }, dispatch] = useStateValue();
 
   const [posts, setPosts] = useState([]);
 

@@ -3,10 +3,10 @@ import { useHistory } from "react-router-dom";
 import "./Header.css";
 import { useStateValue } from "./../StateProvider";
 import { auth } from "../firebase";
-import { Button } from "@material-ui/core";
+import { Button, Avatar } from "@material-ui/core";
 
 export const Header = () => {
-  const [{ user }] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
   const history = useHistory();
   const login = () => {
     if (user) {
@@ -25,12 +25,19 @@ export const Header = () => {
           src="https://logos-world.net/wp-content/uploads/2020/04/Instagram-Logo.png"
           alt="logo"
         />
-        <div onClick={(e) => history.push("/login")} className="header__link">
-          <div onClick={login} className="header__option">
+        <div className="header__link">
+          <div className="header__option">
             <span className="header__optionLineOne">
-              Hello {user?.email || "Guest"}
+              Hello {user?.displayName || "Guest"}
             </span>
-            <Button className="header__optionLineTwo">
+            <Button
+              className="header__optionLineTwo"
+              onClick={(e) => history.push("/profile")}
+            >
+              Profile
+            </Button>
+            <Avatar src={user?.photoURL} alt="user"></Avatar>
+            <Button onClick={login} className="header__optionLineTwo">
               {user ? "Sign Out" : "Sign in"}
             </Button>
           </div>
