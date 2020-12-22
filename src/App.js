@@ -8,7 +8,7 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 import { Header } from "./components/Header";
 import { useStateValue } from "./StateProvider";
-import { auth } from "./firebase";
+import { auth, db } from "./firebase";
 
 const App = () => {
   const top5 = data.slice(0, 5);
@@ -19,12 +19,21 @@ const App = () => {
   // piece of code that runs based on a give condition
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
+      console.log(authUser);
       if (authUser) {
         // the user is logged in
-        dispatch({
-          type: "SET_USER",
-          user: authUser,
-        });
+        db.collection("users")
+          .doc(authUser.uid)
+          .get()
+          .then((doc) => {
+            if (doc.exists) {
+              dispatch({
+                type: "SET_USER",
+                user: doc.data(),
+              });
+            }
+          })
+          .catch((err) => console.log(err));
       } else {
         // the user is logged out
         dispatch({
@@ -34,14 +43,32 @@ const App = () => {
       }
     });
 
+    const setUp = db.collection("users").onSnapshot((snapshot) => {
+      console.log("User doc updated");
+      db.collection("users")
+        .doc(auth.currentUser?.uid)
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            dispatch({
+              type: "SET_USER",
+              user: doc.data(),
+            });
+          }
+        });
+    });
+
     return () => {
       // any clean up operations go here
       unsubscribe();
+      setUp();
     };
   }, []);
 
+  // setInterval(() => {
+  //   console.log("USER IS >>", user);
+  // }, 3000);
   console.log("USER IS >>", user);
-
   return (
     <div className="app">
       <Router>

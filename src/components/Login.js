@@ -13,6 +13,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { Link, useHistory } from "react-router-dom";
 import { auth, db } from "../firebase";
+import { useStateValue } from "../StateProvider";
 
 function Copyright() {
   return (
@@ -45,6 +46,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Login() {
+  const [{ user }, dispatch] = useStateValue();
+
   const classes = useStyles();
   const history = useHistory();
   const [email, setEmail] = useState("");
@@ -55,30 +58,49 @@ export default function Login() {
     auth
       .signInWithEmailAndPassword(email, password)
       .then((authUser) => {
+        db.collection("users")
+          .doc(authUser.uid)
+          .get()
+          .then((doc) => {
+            if (doc.exists) {
+              dispatch({
+                type: "SET_USER",
+                user: doc.data(),
+              });
+            }
+          })
+          .catch((err) => console.log(err));
         history.push("/");
       })
       .catch((e) => alert(e.message));
   };
+
   const register = (event) => {
     event.preventDefault();
+
+    const newUser = {
+      name: email,
+      username: email,
+      userPhotoUrl: null,
+    };
+
     auth
       .createUserWithEmailAndPassword(email, password)
       .then((authUser) => {
         db.collection("users")
-          .add({
-            uid: authUser.user.uid,
-            name: email,
-            username: email,
-            userPhotoUrl: null,
-            posts: [],
-          })
+          .doc(authUser.user.uid)
+          .set(newUser)
           .then(() => {
-            alert("User created successfully.");
-            history.push("/");
+            dispatch({
+              type: "SET_USER",
+              user: newUser,
+            });
           })
-          .catch((err) => console.log(err.message));
+          .catch((err) => console.log(err));
+        alert("User created successfully.");
+        history.push("/");
       })
-      .catch((e) => alert(e.message));
+      .catch((err) => console.log(err.message));
   };
 
   return (

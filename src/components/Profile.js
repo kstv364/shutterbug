@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { TextField, Button, Avatar } from "@material-ui/core";
-import { auth, storage } from "../firebase";
+import { auth, storage, db } from "../firebase";
 import { useStateValue } from "../StateProvider";
 
 import "./Profile.css";
@@ -14,28 +14,34 @@ const Profile = () => {
   const [image, setImage] = React.useState(null);
   const [progress, setProgress] = React.useState(0);
 
-  const updateProfile = (e) => {
+  const updateProfile = async (e) => {
     e.preventDefault();
     if (!user) {
       alert("Sign in First");
       return;
     }
-    user
-      .updateProfile({
-        displayName: name,
-      })
-      .then(() => {
-        if (image) {
-          handleUpload();
-        }
-        console.log("Updated");
-      })
-      .catch((err) => alert(err.message));
+    if (image) {
+      await handleUpload();
+    }
+    const docref = db.collection("users").doc(auth.currentUser.uid);
+    docref.get().then((doc) => {
+      docref
+        .set({
+          ...doc.data(),
+          name,
+          username,
+          bio,
+        })
+        .then(() => {
+          console.log("profile updated");
+        });
+    });
   };
 
   useEffect(() => {
-    setName(user?.displayName || user?.email);
-    setUsername(user?.email);
+    setName(user?.name);
+    setUsername(user?.username);
+    setBio(user?.bio);
     return () => {};
   }, [user]);
 
@@ -73,22 +79,25 @@ const Profile = () => {
           .getDownloadURL()
           .then((url) => {
             console.log(url);
-            auth.currentUser
-              .updateProfile({
-                photoURL: url,
-              })
-              .then(() => {
-                dispatch({
-                  type: "SET_USER",
-                  user: auth.currentUser,
-                });
-                setImage(null);
-              })
-              .catch((err) => console.log(err));
-          })
-          .catch((err) => alert(err.message));
 
-        setProgress(0);
+            const docref = db.collection("users").doc(auth.currentUser.uid);
+            docref
+              .get()
+              .then((doc) => {
+                docref
+                  .set({
+                    ...doc.data(),
+                    userPhotoUrl: url,
+                  })
+                  .then(() => {
+                    console.log("Image Uploaded successfully");
+                    setImage(null);
+                    setProgress(0);
+                  })
+                  .catch((e) => console.log(e));
+              })
+              .catch((e) => console.log(e));
+          });
       }
     );
   };
@@ -97,7 +106,7 @@ const Profile = () => {
     <div className="profile">
       <Avatar
         className="profile__image"
-        src={image?.imageUrl || user?.photoURL}
+        src={image?.imageUrl || user?.userPhotoUrl}
         alt="user"
       ></Avatar>
       <input type="file" onChange={handleChange} />

@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import "./Header.css";
 import { useStateValue } from "./../StateProvider";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
 import { Button, Avatar } from "@material-ui/core";
 
 export const Header = () => {
   const [{ user }, dispatch] = useStateValue();
   const history = useHistory();
+
+  useEffect(() => {
+  
+  }, []);
+
   const login = () => {
     if (user) {
       auth.signOut();
@@ -28,10 +33,10 @@ export const Header = () => {
         <div className="header__link">
           <div className="header__option">
             <span className="header__optionLineOne">
-              Hello {user?.displayName || user?.email || "Guest"}
+              Hello {user?.name || "Guest"}
             </span>
             <Avatar
-              src={user?.photoURL}
+              src={user?.userPhotoUrl}
               onClick={(e) => user && history.push("/profile")}
               alt="user"
             ></Avatar>
