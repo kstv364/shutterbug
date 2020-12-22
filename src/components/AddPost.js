@@ -1,3 +1,4 @@
+//@ts-check
 import React, { useState } from "react";
 import { Modal } from "@material-ui/core";
 import { Input } from "@material-ui/core";
@@ -45,7 +46,10 @@ function AddPost({ username }) {
   // };
 
   const handleUpload = () => {
-    const uploadtask = storage.ref(`/images/${image.name}`).put(image);
+    const uploadtask = storage
+      //@ts-check
+      .ref(`/images/${image.name}${Date.now()}`)
+      .put(image);
 
     uploadtask.on(
       "state_changed",
@@ -82,6 +86,7 @@ function AddPost({ username }) {
 
   function onDrop(picture) {
     setImage(picture[0]);
+    console.log(picture);
   }
 
   const handleModalClose = () => {

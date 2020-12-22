@@ -28,15 +28,13 @@ export const Header = () => {
         <div className="header__link">
           <div className="header__option">
             <span className="header__optionLineOne">
-              Hello {user?.displayName || "Guest"}
+              Hello {user?.displayName || user?.email || "Guest"}
             </span>
-            <Button
-              className="header__optionLineTwo"
-              onClick={(e) => history.push("/profile")}
-            >
-              Profile
-            </Button>
-            <Avatar src={user?.photoURL} alt="user"></Avatar>
+            <Avatar
+              src={user?.photoURL}
+              onClick={(e) => user && history.push("/profile")}
+              alt="user"
+            ></Avatar>
             <Button onClick={login} className="header__optionLineTwo">
               {user ? "Sign Out" : "Sign in"}
             </Button>

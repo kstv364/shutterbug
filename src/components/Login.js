@@ -12,7 +12,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { Link, useHistory } from "react-router-dom";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
 
 function Copyright() {
   return (
@@ -51,25 +51,32 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   const login = (event) => {
-    event.preventDefault(); // stops the refresh! very important!
-    //login logic goes here
+    event.preventDefault();
     auth
       .signInWithEmailAndPassword(email, password)
       .then((authUser) => {
-        // logged in, redirect to homepage
         history.push("/");
       })
       .catch((e) => alert(e.message));
   };
   const register = (event) => {
-    event.preventDefault(); // stops the refresh! very important!
-    // register logic goes hereimport { auth } from '..App.test/firebase';
-
+    event.preventDefault();
     auth
       .createUserWithEmailAndPassword(email, password)
-      .then((auth) => {
-        // created a user and logged in, then redirect to homepage
-        history.push("/");
+      .then((authUser) => {
+        db.collection("users")
+          .add({
+            uid: authUser.user.uid,
+            name: email,
+            username: email,
+            userPhotoUrl: null,
+            posts: [],
+          })
+          .then(() => {
+            alert("User created successfully.");
+            history.push("/");
+          })
+          .catch((err) => console.log(err.message));
       })
       .catch((e) => alert(e.message));
   };

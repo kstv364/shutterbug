@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Input, Button, Avatar } from "@material-ui/core";
+import { TextField, Button, Avatar } from "@material-ui/core";
 import { auth, storage } from "../firebase";
 import { useStateValue } from "../StateProvider";
 
@@ -10,6 +10,7 @@ const Profile = () => {
 
   const [name, setName] = React.useState(null);
   const [username, setUsername] = React.useState(null);
+  const [bio, setBio] = React.useState(null);
   const [image, setImage] = React.useState(null);
   const [progress, setProgress] = React.useState(0);
 
@@ -33,7 +34,7 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    setName(user?.displayName);
+    setName(user?.displayName || user?.email);
     setUsername(user?.email);
     return () => {};
   }, [user]);
@@ -51,9 +52,8 @@ const Profile = () => {
   const handleUpload = () => {
     console.log(image);
     if (!image) return;
-    const uploadtask = storage
-      .ref(`/images/${image.file.name}`)
-      .put(image.file);
+    const filename = `${image.file.name}${Date.now()}`;
+    const uploadtask = storage.ref(`/images/${filename}`).put(image.file);
 
     uploadtask.on(
       "state_changed",
@@ -69,7 +69,7 @@ const Profile = () => {
       () => {
         storage
           .ref("images")
-          .child(image.file.name)
+          .child(filename)
           .getDownloadURL()
           .then((url) => {
             console.log(url);
@@ -102,17 +102,24 @@ const Profile = () => {
       ></Avatar>
       <input type="file" onChange={handleChange} />
       {progress > 0 ? <div>Uploaded {progress}%</div> : ""}
-      <Input
-        placeholder="Name"
+      <TextField
+        label="Name"
         value={name || ""}
+        className="profile__text"
         onChange={(e) => setName(e.target.value)}
-      ></Input>
-      <Input
-        placeholder="Username"
+      ></TextField>
+      <TextField
+        label="Username"
+        className="profile__text"
         value={username || ""}
         onChange={(e) => setUsername(e.target.value)}
-      ></Input>
-      <Input placeholder="Bio" value="Some awesome Bio"></Input>
+      ></TextField>
+      <TextField
+        label="Bio"
+        className="profile__text"
+        value={bio || ""}
+        onChange={(e) => setBio(e.target.value)}
+      ></TextField>
       <Button
         type="submit"
         fullWidth
