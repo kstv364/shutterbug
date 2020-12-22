@@ -82,6 +82,7 @@ export default function Login() {
       name: email,
       username: email,
       userPhotoUrl: null,
+      bio: "",
     };
 
     auth

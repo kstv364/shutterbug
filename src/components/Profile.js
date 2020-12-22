@@ -34,14 +34,16 @@ const Profile = () => {
         })
         .then(() => {
           console.log("profile updated");
-        });
+        })
+        .catch((err) => console.log(err));
     });
   };
 
   useEffect(() => {
     setName(user?.name);
     setUsername(user?.username);
-    setBio(user?.bio);
+    setBio(user?.bio || null);
+    console.log(bio);
     return () => {};
   }, [user]);
 
@@ -51,14 +53,12 @@ const Profile = () => {
       file: event.target.files[0],
       imageUrl: URL.createObjectURL(event.target.files[0]),
     });
-    console.log(event.target.files[0]);
-    console.log(URL.createObjectURL(event.target.files[0]));
   };
 
   const handleUpload = () => {
     console.log(image);
     if (!image) return;
-    const filename = `${image.file.name}${Date.now()}`;
+    const filename = `${image.file.name}`;
     const uploadtask = storage.ref(`/images/${filename}`).put(image.file);
 
     uploadtask.on(
@@ -89,14 +89,15 @@ const Profile = () => {
                     ...doc.data(),
                     userPhotoUrl: url,
                   })
-                  .then(() => {
-                    console.log("Image Uploaded successfully");
-                    setImage(null);
-                    setProgress(0);
-                  })
+                  .then(() => {})
                   .catch((e) => console.log(e));
               })
-              .catch((e) => console.log(e));
+              .catch((e) => console.log(e))
+              .finally(() => {
+                console.log("Image Uploaded successfully");
+                setProgress(0);
+                setImage(null);
+              });
           });
       }
     );
