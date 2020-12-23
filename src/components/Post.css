@@ -27,5 +27,10 @@
   background-color: white;
   display: flex;
   align-items: center;
-  padding: 10px;
+  padding: 5px 10px;
+}
+
+.post__comments {
+  background-color: white;
+  padding-bottom: 10px;
 }

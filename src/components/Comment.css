@@ -1,0 +1,17 @@
+.comment {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  padding: 2px 16px;
+  font-size: 12px;
+}
+.comment__avatar {
+  height: 1.5rem !important;
+  width: 1.5rem !important;
+  margin: 2px;
+  align-self: flex-start;
+}
+
+.comment__text {
+  margin-left: 5px;
+}
