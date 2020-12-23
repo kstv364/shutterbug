@@ -3,22 +3,14 @@ import "./Post.css";
 import Avatar from "@material-ui/core/Avatar";
 import { db } from "../firebase";
 import Comment from "./Comment";
+import AddComment from "./AddComment";
+import { useStateValue } from "../StateProvider";
 
 const Post = ({ post }) => {
+  const [{ user }, dispatch] = useStateValue();
+
   const [postDetail, setPostDetail] = useState(null);
-  const [comments, setComments] = useState([
-    {
-      id: "daedaedada",
-      uid: "dewdadetgdtgt",
-      text: "comment text",
-    },
-    {
-      id: "daedaedadaswsw",
-      uid: "dewdadetgdtgt",
-      text:
-        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.",
-    },
-  ]);
+
   useEffect(() => {
     db.collection("users")
       .doc(post.uid)
@@ -30,10 +22,11 @@ const Post = ({ post }) => {
         post.name = name;
         setPostDetail(post);
       });
-    return () => {};
-  }, []);
 
-  console.log(postDetail);
+    return () => {};
+  }, [post]);
+
+  console.log("postdetail", postDetail);
   return (
     <div className="post">
       <div className="post__header">
@@ -51,15 +44,16 @@ const Post = ({ post }) => {
         alt={postDetail?.username}
       />
       <div className="post__caption">
-        <h6 className="post__text">
+        <div className="post__text">
           <strong>{postDetail?.name}</strong> {postDetail?.caption}
-        </h6>
+        </div>
       </div>
       <div className="post__comments">
-        {comments.map((comment) => (
-          <Comment key={comment.id} comment={comment}></Comment>
+        {postDetail?.comments.map((comment) => (
+          <Comment key={comment.timestamp} comment={comment}></Comment>
         ))}
       </div>
+      {user ? <AddComment user={user} post={post} /> : null}
     </div>
   );
 };

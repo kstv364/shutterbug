@@ -72,6 +72,7 @@ function AddPost({ username }) {
               timestamp: firebase.firestore.FieldValue.serverTimestamp(),
               caption,
               imageUrl,
+              comments: [],
               uid: auth.currentUser.uid,
             });
           });

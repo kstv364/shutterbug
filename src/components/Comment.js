@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-import Avatar from "@material-ui/core/Avatar";
-import { db } from "../firebase";
+import React, { useEffect } from "react";
 import "./Comment.css";
 
 function Comment({ comment }) {
@@ -16,15 +14,14 @@ function Comment({ comment }) {
     //   });
   }, []);
 
-  const [userInfo, setUserInfo] = useState(null);
   return (
     <div className="comment">
-      <Avatar
-        className="comment__avatar"
-        alt={userInfo?.username}
-        src={userInfo?.userPhotoUrl}
-      ></Avatar>
-      <div className="comment__text">{comment.text}</div>
+      <div className="comment__text">
+        <span>
+          <strong>{comment.uname}</strong>{" "}
+        </span>
+        {comment.comment}
+      </div>
     </div>
   );
 }

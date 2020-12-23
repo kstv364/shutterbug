@@ -1,6 +1,7 @@
 .post {
   margin-bottom: 45px;
   border: 1px solid lightgray;
+  background-color: white;
 }
 
 .post__image {
@@ -29,7 +30,9 @@
   align-items: center;
   padding: 5px 10px;
 }
-
+.post__caption__avatar {
+  margin-right: 5px;
+}
 .post__comments {
   background-color: white;
   padding-bottom: 10px;
