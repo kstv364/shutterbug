@@ -26,7 +26,7 @@ export default (props) => {
       );
     });
   }, []);
-  console.log(posts);
+
   return (
     <>
       <div className="container" style={{ marginTop: "3em" }}>

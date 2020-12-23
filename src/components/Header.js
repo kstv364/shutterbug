@@ -16,6 +16,7 @@ export const Header = () => {
   const login = () => {
     if (user) {
       auth.signOut();
+      history.push("/");
     } else {
       history.push("/login");
     }
@@ -36,6 +37,7 @@ export const Header = () => {
               Hello {user?.name || "Guest"}
             </span>
             <Avatar
+            className="header__avatar"
               src={user?.userPhotoUrl}
               onClick={(e) => user && history.push("/profile")}
               alt="user"

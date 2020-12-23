@@ -29,3 +29,6 @@
   margin-right: 5px;
 }
 
+.header__avatar {
+  cursor: pointer;
+}
