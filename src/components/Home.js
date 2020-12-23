@@ -16,10 +16,13 @@ export default (props) => {
   useEffect(() => {
     db.collection("posts").onSnapshot((snapshot) => {
       setPosts(
-        snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }))
+        snapshot.docs.map((doc) => {
+          let post = {
+            id: doc.id,
+            ...doc.data(),
+          };
+          return post;
+        })
       );
     });
   }, []);
@@ -31,13 +34,7 @@ export default (props) => {
           <Col xs="12" lg="8">
             {user ? <AddPost username={user?.email}></AddPost> : <></>}
             {posts.map((post) => (
-              <Post
-                key={post.id}
-                username={post.username}
-                caption={post.caption}
-                imageUrl={post.imageUrl}
-                userPhotoUrl={post.userPhotoUrl}
-              ></Post>
+              <Post key={post.id} post={post}></Post>
             ))}
           </Col>
           <Col xs="12" lg="4">

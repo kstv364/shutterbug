@@ -48,7 +48,7 @@ function AddPost({ username }) {
   const handleUpload = () => {
     const uploadtask = storage
       //@ts-check
-      .ref(`/images/${image.name}${Date.now()}`)
+      .ref(`/images/${image.name}`)
       .put(image);
 
     uploadtask.on(
@@ -72,8 +72,7 @@ function AddPost({ username }) {
               timestamp: firebase.firestore.FieldValue.serverTimestamp(),
               caption,
               imageUrl,
-              username,
-              userPhotoUrl: auth.currentUser.photoURL,
+              uid: auth.currentUser.uid,
             });
           });
         setProgress(0);
@@ -108,7 +107,6 @@ function AddPost({ username }) {
               placeholder="caption"
               onChange={(e) => setCaption(e.target.value)}
             ></Input>
-
             <ImageUploader
               withIcon={true}
               withPreview
