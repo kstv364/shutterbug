@@ -34,6 +34,7 @@ const Profile = () => {
         })
         .then(() => {
           console.log("profile updated");
+          alert("Profile updated successfully");
         })
         .catch((err) => console.log(err));
     });
@@ -58,7 +59,7 @@ const Profile = () => {
   const handleUpload = () => {
     console.log(image);
     if (!image) return;
-    const filename = `${image.file.name}`;
+    const filename = `${image.file.name}${new Date()}`;
     const uploadtask = storage.ref(`/images/${filename}`).put(image.file);
 
     uploadtask.on(

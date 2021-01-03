@@ -43,11 +43,14 @@ const Post = ({ post }) => {
         src={postDetail?.imageUrl}
         alt={postDetail?.username}
       />
-      <div className="post__caption">
-        <div className="post__text">
-          <strong>{postDetail?.name}</strong> {postDetail?.caption}
+      {postDetail?.caption ? (
+        <div className="post__caption">
+          <div className="post__text">
+            <strong>{postDetail?.name}</strong> {postDetail?.caption}
+          </div>
         </div>
-      </div>
+      ) : null}
+
       <div className="post__comments">
         {postDetail?.comments.map((comment) => (
           <Comment key={comment.timestamp} comment={comment}></Comment>

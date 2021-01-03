@@ -48,7 +48,7 @@ function AddPost({ username }) {
   const handleUpload = () => {
     const uploadtask = storage
       //@ts-check
-      .ref(`/images/${image.name}`)
+      .ref(`/images/${image.name}${new Date()}`)
       .put(image);
 
     uploadtask.on(
